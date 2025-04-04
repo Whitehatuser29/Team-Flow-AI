@@ -25,7 +25,7 @@ Installation & Setup
 
 1. Clone this repository:
 
-git clone https://github.com/your-username/teamflow.git
+git clone https://github.com/Whitehatuser29/Team-Flow-AI.git
 
 
 2. Install dependencies and configure API keys (refer to config.json).
