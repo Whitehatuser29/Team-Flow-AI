@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamFlow AI Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAPFBMVEVHcEz/9AD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QD/9QCOwvB4AAAAFHRSTlMAECAwQFBgcICPn6+/z9/v/yAgUGDRVZAAAAFTSURBVHgB7djbDcMgDAVQKjqCd8gIHiEjZITukA2yQ0bwCPlAqVQ4x1a4D/0XvYh4JCIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiKiUvIL5e0HlXK+7FUAAAAASUVORK5CYII=" class="watermark-logo" alt="Watermark Logo">
+
+    <!-- Voice Assistant -->
+    <div class="voice-assistant">
+        <button id="voice_button" class="action-btn voice-btn" aria-label="Voice command">
+            <i class="fas fa-microphone"></i>
+        </button>
+        <div class="voice-status" id="voice_status">Click to speak</div>
+    </div>
+
+    <div class="left-panel">
+        <div class="teamflow-header">
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCADwAPADASIAAhEBAxEB/8QAHQABAAEEAwEAAAAAAAAAAAAAAAcCBAgJAQMGBf/EAFkQAAEDAwEEAwYNDA8JAAAAAAEAAgMEBREGBwghMRJBURMiMmFxkRQzNkZlcnWUsbPR0tMJFhcYI0JVdIGhwcMVGTdDU1RWYnOSk5WiteEkJkVSZIKEstT/xAAcAQEAAgMBAQEAAAAAAAAAAAAABAUCAwcBBgj/xAA8EQACAQMBAgsFBgUFAAAAAAAAAQIDBBEFEjEGFCEzQVFhcYGRsRMWIlLBBzI0U3KSNUKywuFjc9Hw8f/aAAwDAQACEQMRAD8A2poiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAij3W23nZhoOpfb7vqAVNwjz0qKgjdUStOM4f0e9jJ6um5uVHw30NCnvvrE1gG48Esoen5vROPzq3ttB1K7h7SlRk4vp3Z7s4z4GmVenB4bMg0UbaL3htlmt6qG20V+dbrjOWtjornEaeR7zyYxxzHI7ge9Y9x4dikgEHiCoFzZ3FlP2dxBxfasGyM4zWYvJyiIo5kEREAREQBERAEREAREQBERAEREAREQBERAEREAREQHBOFitvBbwVwrLjWaD0HcX01JTOdT3G4wOxJLIDh8UThxa1py1zhxJBAIxlTXtv1pUaH2cXe8UE3c658YpKR4dgsllPRDx42jpOHjaFgU1oa0NbyAwF97wL0WldOV9cLKi8RT3Z3tvu5MdvcQbys4/BENa1ow0ADJPDtPNcoi6gVpS9jJWOilY17Hgtc1wyCOwjrU+7Adv9ysFwpNF61uMlVaKh4hpKud5dJSPJw1jnHi6MngM+Dns5QIuHNa9pa4ZBGCO0KFqOn0NUoO3uFlPc+lPrXb/wCMzp1JU5bUTZm1wcAQQQexcqMN3jWtTrPZnbqi4zd1r7cX2+qeXZc50Rw17v5zoyxxH85SdyXB7u2nZXE7epvi2vIu4SU4qS6TlFjnvJb31o2N1j9E6PtUN/1i6ESytmeW0Nra7HQNQ5vfPkIJe2BmCWty98QfG5+I193st4W/1L6ifaNUULXu6TYLbTRU0UfibhpeR7Zzj419HpfA7UdToq4WIQe7aby11pJN46s4zvRHq3lOk9nezaKi1q6M319vWkqxs1zu9HqyhBHdKG6Qtic5ozkMqImh8bjw75zZQMeBzWdexnbVo7bfpNmptKyywyxOENwt1T0RU0E+MmOQNJHIgtcCWuBBBUXWODF/osVVrJSh80XlJ9uUmvLHaZUbmnWeI7z36Ii+eJAREQBERAEREAREQBF47abtb0Fshs0d711ehRRVEncaaGOJ009RJjPRjjYC52Bkk4wACSQBlQ67f22OtcQLFq1wB4EUUPHzzZVla6Rf3sPa29KUo9aXJ5muVanB4k+UyTRY1fb87HfwBq73lB9MuDv9bHB639Xe8oPplJ93NV/IkY8ZpfMZLIsaDv8Amxset/V3vKD6ZU/b/wCxset/V/vKD6ZPdzVfyJDjFL5jJlFjL+2A7Gh639X+8YPplwfqgexket7WHvGD6ZPdzVfyJDjFL5j7m9zNIdCUcYJ7n+ysJd2Z6EmP0rErpt7VKu2Pe42S7SdI1lht1q1RBVyFktO+ooYAxsrHAjJExOCOkMgcMrHj6/7YOcNV/Ub85dL4JW9xZ2HsLim4yUnv6U8cpW3UozqbUXk9l0m9q5yCvN2rV9rukwpopHxynwWSt6Jd5Oo+TOV92OUO619Pkjnei4achckgAk8ggModzqV7NPagj/e3XjPi6XoaHP5uipl2p64g2c7Pb/rWcdIWeglqWNxnpPDe9GOviRwXgd3DTE+nNF0kVTEWVNY51ZOCMEOf4IPjDA1v5E3toKqs2GatpqWN0jm0BlLGjJc1pBIA6yuK386Oo68/klUS71lRb8S4pp06Hbg1p3O6XK+XOrvd5qX1NfcJ31VVM45L5XnLjnynzK2TnxByi7ukorC3FFvClHdn2nVWyzbJYbh6Icy2X6rgsVzjAJEjKiQRwOwOtkz2cTwDXyFRcvq6Ppqms1rpmko4HzTTX22sY1gyR/tUWXeRoy4nqAJ6lFvqNO5talGsvhkmn5fTf2GUJOMlJbzcRG8PbkHKrVjaZDJSMLueAr5fm8+jCIiAIiIAiIgCIiA12b7dyra7b1PTVVQ58NutFLDSxnwYg9z3yFvYXENz29BvYoFLlN2+k7G8DdB7G0PwPUFl/jXedCSWmUEvkj6FFX52XeVl2OS63OVJcuiWrponFktTExw6nPAKtkmzVuO4uVBcrZ1wov45B/aN+VUOuFF/HYP7Rvyr3ZfUMly56oLlbG4UP8dg/tG/KqDcaHkK2nz/AEjflTZfUMouS7tVBcqC7PHKpc7sXgKjM+EiaJxbJGemwjqI4gqXbfV92Y1+eYBUHahuE1ssNyuUDWOlpKOadgeCWlzGFwzjHDI7VnO3djsdtqpKWC7350cT3MaJJIC7AOOJEQGfyKn1jV7bSPZyuW0p7WMLP3dnPqjdSoyq52egh5jwGlznAADJJPJSnso2WVt8uVPer5SPjo4nCSGCRuHTOB4OI6m9fHn5Oci6T2I2G11EdRBaTNOwgtmqnGV7SOsA960+NrQVNWmdIxULWvkYOkviNZ4a8ZpOhYRcU+Rye/wSzjvznsTJtGz2XtVD62mLZ6CpGAtwcBW2uLVDdbVUUdRCJYZ4nRSsPJzHAgjzFelijEbQ0BddXTtqIyxwzkLn6eOVE81N7X9mNx2Uaqdaatjja62Z4tNURhszcF3cs/wjWg5bzIaXDhnHiltE2hbNbXqOhqLddrTS3CiqMd1p6mESRvwcjLXcMggEHmCARxWOd53PNDS1HSttRqC1xjI7jBWNmZ552SSf48eJdW0jh5buiqeopqa/mSyn2vpT8Gunk3FVWsZbWae4xGJABJIAHEkrJTdJ2N11w1FSbTL9ROipaUONoikbgyPc0tNRg8eiGlzW9vSJ7CpA0TuoaAstdBXVFqrL1UwO6Ucl1nErGnIOe4sayJ2CBguY4jqOVkxpTSrKBjXvZxAHUq/hDw1p3lvK009NKXJKT5OTpSXb0t46VjpNlvZOEtuoeotURhpWMI6leqljQxoAVS5yWIREQBERAEREAREQGtvfVdjeEuo9jKH4JFBZcpx32HY3hbqPYyh+CRQQXrvWh/w2h+iPoiirc5LvK3PWfe4zpHS+oN3GzXS+6bttfVvvF9jM9TSske5jLrVMYOk4ZIa1oaOwABa/i5d0N1utLGIKS719PECSI4auSNgJOThrXAcTkrzW9Mlq9pxaE9h7SlnGdyksb1vz19B7RqKjLaaybd/sbbPv5E2P3hF8ifY22ffyIsfvCL5Fp7v2oNQMsdxezUd5a4UkxBbcZwQegeIIdkFbk9Jku0tZ3OJJNBTkknifubVzLhBolfQoU5uu57ba6VjGO19ZY29eNdtbOMFh9jbZ7/Iix+8IvkVvcdm+z9tuqnM0TYw4QPIIoIufRPiWtLeZvV6h3j9pNPBfbnFFDeYWxxx10rGMHoGlOGtDsAZJOAOZJ6yo1N9v59cV3/LcJvnK6tuBlxXo06/GmtqMZYw+lJ4+92mmV7FNrZ3NnTWENrKloGA2eQADqw8roLvyKkuwutz/ABrpKWCuLPUVJNc7Bc7bTFolq6OeCMuOAHPYWjPiyVsng3wdjN0ldUw2PUh7q4vy6kjGcnOfDWuCR3enyKT9Nekxe1HwKj1vSrfVnShc5xHaxh437OfRG+hVlST2TOil3r9lLAO52S/j/wAaP56vW73mzVnBtnv3veP56w6pfBCuFWrgXpXVL9xt45VMv/tv9m/4Iv3veP56fbf7N/wRfve8fz1iAi99y9K6pfuHHKplBqXfg2U6eYyW66Z1S6nlf3Ns0VJG9gdjIDsPy08Ovgeorz537Ng9SekNP6p4/wDQx/PWNOroIanSl4hnaHNNDM7j1Oawua4eMOAI8YChC2yl7GnPMLGPAvSdrDUv3f4POOVew2Gwb9Ww2DizT+qc/iUfz1et3/8AYwwYbYtU+8o/pFr7Z4IVSlLgLpHVL93+DHj1bsNkGjN93Ynq+/U2n5ai62WWse2KCe50wjp3SOOGsL2uIaSSAC7A8YU/gg8lpefGyZjopGhzHgtcDyIPMLalu03y46g2FaEul2qnVFZUWOmdNI7m44x8AC+O4W8GrbRqdO4tW8SeGny8uMpp+DyS7S5lWbjIlBERfDE4IiIAiIgCIiA1qb7ZxvD3UZ/4XQ/BIoHLlOm+87G8VdR7FUH6xQM53au96H/DaH6I+iKKvzku8qL1QXdqpLuxUFytTUWOo340/cz2Uc//AKFbptJepWzfiFP8W1aU9TOxpy6/iU/xZW6zSPqVs3ufT/FtXPvtB5i275+kCdp/359y+pqt3nXAby2073ag/wAvpVGbnqRt595+2Y2oDsvcH+X0ijIuX22nfgaH+3D+hEKf35d79Stz1QXKhzsclQ56lnhzI/vHeRSrpr0mL2o+BRJI7vHeQqW9N+lR+1HwKJc85Dx+hnDcz2FL4IVwrel8EK4UhbjwIiID5mqM/WxeMfg+o+LcoItB+5N8infVHqYvHufU/FuUD2j0lvkCwXOI8e4+5H4IVSpj8EKpWC3GsDmtnW6Yc7A9CDsskH6VrFHNbOd0v9wTQnuJB+lfA/aF+Apfr/tkT9P5x9xM6Ii5GWwREQBERAEREBrM34HY3jLsPYqg/WKBS5TtvxnG8fdh7E0H61QIXYXe9D/htD9EfRFDW5yXeVF35FQXYVLnrrLz1K1NZYaof/u3dvxGf4ty3ZaR9Slm9z6f4tq0kakbJLp66RRMc+R9FO1rWjJcTGcAeNbl9KbQdCRaXs8Uus7I17KCnDmmviBB7m3h4S+A+0CEp0LbZWeWfpAnWGFKXh9TWFvQPA3m9qQ7L5B/l1Ioyc9SHvL1VPW7ye06voqiOopam9wSQTRPD2SNFupGktcOBHSa4cOsFRsXdq+009YsqC/06f8AREiVF8cu9+pUX55Kgu8apc5dZdlSzE5lf9zd5Cph036VH7UfAoZld9zd5Cpm056VH7UKJc/fh4/QyjuZ7Cl8EK4VvS+CFcKQtx4EREB8zVHqYvHufU/FuUD2j0lvkCnjVHqYvHufU/FuUD2j0lvkCwXOo8e4+5H4IVSpj8EKpWC3GsDmtnO6X+4JoT3Eg/StYw5rZzul/uCaE9xIP0r4H7QvwFL9f9sifp/OPuJnREXIy2CIiAIiIAiIgNYm/M7G8jdh7EW/9aoCc9ZBb+1ur7dvGz1VZTOjp7pYqOajlOOjMI3yslDeslhdH0uzujO1Y8F2F3vQmnplu18kfQoq6xUl3lRd2qgvVDnKguJVqaipz1ZPttseS51upSTxJMLST+ZXBdhdbnr1NrcMZOWNjhY2KGNsbGjDWtGAB4h1Lgu7FQXKgvTeelTnKlz1QXrrLkBzM/7m72pU2ac9Lj9qFB7g6QdyYMuf3rR2k8FOenmERsz2BRLnnIeP0M47metpfBCuF0UwwF3retxiEREB8zVHqYvPufUfFuUEWgfcm+RTjrSf0No++zDiW26pDR2uMbgB5yFCNqbiNvZjCxXOIPcfYj8FVKlnghVKejUcFwaC48hxK2h7rtBU2rYnou3VjOhNT2eBjx2HBP6Vra0LpCt15q616SoYy51wqGsldjhHCOMjz2ANBW17RNuhtlopqKmZ0IaeJkMTccmNAA/MAua/aHdw2KNot+XJ9i3Lzy/IstPg8ufgelREXLyzCIiAIiIAiIgPDbW9imzjbfYItO7RbD6PgppRUUs8U76eppZcY6cU0ZD2EgkHBw4EgggkKD3fU5dh7nEt1HrVoJyALhAceLjBnzrKlFZWusX9jT9lb1pRj1Z5PI1zowm8yRip+1xbDz65tbf3hT/QLg/U4Nh59c2tv7wp/oFlYile8mrfnyMOLUvlMUT9Td2HH1z63/vCn+gXXN9Tf2HMjLxqbXBIH4Qp/wD51lkqZG9JhCe8mrfnyPeLUvlNUe9Bu72/YvqK0waRrbnU2e5wSZkuEjJZGVDCO8yxjObTnkeXNQqbLWn98H9T/VbRN5zZiNf6NqaKngD66kd6MoTjiZWjiwe2bkeXCwLOnMEgxYI4EEYIPYvt+D2pXOp2vxVG5xeHy+T+ngQrinGnLkXIRcbJWfwg/qf6quLT1VIcOl/wKTvrcH8GF2RaeaD4Cv1G6+d+ZozHqPHWDSkUNQyolzI9vEZHJSXaKYxtaCF1UdobHjvV9ulphGBwUyjSlnam8swlLqLyAYC7VQwYVanmAREJwMlAeI2v3MUelG2xhPdbpUxwjonBEbD3R7vJ3jWn+kCjW3x9FgWZtPu36a1rpejfrC0TuuWHTR1EMro5qZr+ie5gjhjvGlwxxOeOF5ap3N6KCZ3oDV1wbETkNmp2OLfFkc18vDhdpUbicKk2tl4zhtPHSsZ+hIdpVcU0jG5vAK5tttuV5r4bVZ7fUV1bUODIaeBnSe8+IdQ7ScADJJABKyWs26BafRDXXXUdzqoxw7lFGyIO8rsZH5FPOzfYnp3SMQg0/Y4aMPAEkuOlLJ7Z54nycvEtd/w8sKEGrROpLuaXjnl8l4o9p2FST+PkR43di2AnQML73fBFUaiuLAyeSM9KOkhzkQRHHHjgvd98QB4LWrLGgphTwNYByC+dY7HDboWhrACvtAYXKb6+r6jcSubh5lL/AKkuxdBaU6cacdmO45REUQzCIiAIiIAiIgCIiAIiIAiIgPiaitTa6lc3HHCw423bJZbVdKnVNlpCYJ3GSugY3jHIeczR2O5uA5HLuPSOM4HsD2kELxuq9LMro3SMjGcdistK1StpFwq9Ll6Guhrq/wCH0M11aSqx2Wa8/QjTyb+ZcikaPvfzKctoWxV7KiWv06xsEhJc+ldwjcf5p+9Pi5eRRBX0Fda6k0dyo5aWcfeStwT4x1OHjGQuy6Xq9lq9Pat5fF0xe9eH1XIVFWjOk/iLBtOG8Q1drWY6lWitsYNQAwiLuo6OruNQ2koKWWpndyjib0j5T2DxngvJSUE5SeEhvOlSfse2aVGoLjBf7rTkUMLw+mjcPT3g8HY/5QfOfIr/AEDsVqKqoirtSsD8EFtGw5b/AN56/IOHlWTekdJx0ETHOia3ogAADAAHUue8JOFkNiVnp8st8jkt2OqPX37urrU+3tXnbqeR9Cx6ap46RoljBJHWFdS6ToZDnuQ8y+7GwMaGgclWualifBg0tRRHIiHmX1KeggpwAxgCukQHAAHJcoiAIiIAiIgCIiAIiIAiIgCIiAIiIAqJI2yDDgq0QHm71pemr2E9zGT4lHGpNmdPWxvp6qghqYXc45ow9vmIU1EA811SU0Ugw5oKyjKUGpReGg1neYoXXYPYJXPMVHWUZcck0054eQSB7R5AF8f7AVBnH7J3fHlhz8Wsu5rHSS5zG3zLo+tqiz6U3zK3p8IdVpLZjXl4vPrk0u3pP+UxgtmwawRlvdqaurSDnNRUEecRhgPkKknTOzGmoI2wUdugpYc5LIYgwZ7eHMqXIrHRxco2+ZXsdLFEMNaAod1qV5e8lxVlJdTbx5bjONOEPurB56yaVpqBrSWDI8S9HFE2NuGjCrAA5LlQjMIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgP/2Q==">
+        </div>
+        
+        <div class="left-panel-content">
+            <div class="user-profile">
+                <div class="profile-pic">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="status-indicator available"></span>
+                </div>
+                <div class="profile-info">
+                    <span class="user-name">John Doe</span>
+                    <span class="user-status">Available</span>
+                </div>
+            </div>
+
+            <ul class="main-nav">
+                <li><a href="#dashboard" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#tasks"><i class="fas fa-tasks"></i> Tasks</a></li>
+                <li><a href="#calendar"><i class="fas fa-calendar-alt"></i> Calendar</a></li>
+                <li><a href="#chat"><i class="fas fa-comments"></i> Chat</a></li>
+                <li><a href="#activity"><i class="fas fa-bell"></i> Activity</a></li>
+            </ul>
+
+            <div class="added-apps">
+                <h4>Added Apps</h4>
+                <ul>
+                    <li><a href="#files"><i class="fas fa-folder"></i> Files</a></li>
+                    <li><a href="#wiki"><i class="fas fa-book"></i> Wiki</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bottom-profile">
+            <div class="profile-actions">
+                <button class="profile-btn" aria-label="Settings"><i class="fas fa-cog"></i></button>
+                <button class="profile-btn" aria-label="Toggle dark mode"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-panel">
+        <div id="dashboard" class="tab-content active">
+            <h1>Welcome to TeamFlow AI</h1>
+            <h2><b>Use the chat assistant to manage tasks and schedules!</b></h2>
+            <p>TeamFlow is a clever virtual assistant that transforms how you work in Microsoft Teams by making everything simpler and smarter. It pulls together your chats from Teams, emails from Outlook, tasks from Planner, and files from OneDrive into one easy dashboard, so you don't have to hunt for stuff across different apps. With its Azure AI magic, it spots things like "Let's meet tomorrow" in your messages and instantly sets up a meeting, assigns tasks, and sends reminders—no extra work needed! It also keeps an eye out for problems, popping up alerts like "John hasn't shared the data yet!" to keep your projects on track. Plus, it syncs with apps outside Microsoft, like Slack and Zoom, using Power Automate, so all your tools play nice together. It's like having a super-organized friend who handles the boring stuff, leaving you free to shine!</p>
+        </div>
+
+        <div id="tasks" class="tab-content">
+            <h2><i class="fas fa-tasks"></i> Task Manager</h2>
+            <div class="task-input-group">
+                <input type="text" id="new_task_input" placeholder="Enter task description" aria-label="Task description">
+                <input type="datetime-local" id="task_deadline" aria-label="Task deadline">
+                <button id="add_task_button" class="action-btn" aria-label="Add task">
+                    <i class="fas fa-plus"></i> Add Task
+                </button>
+            </div>
+            <div class="task-list-container" style="height: 400px; overflow-y: auto;">
+                <ul id="task_list"></ul>
+            </div>
+        </div>
+
+        <div id="calendar" class="tab-content">
+            <h2><i class="fas fa-calendar-alt"></i> Schedule</h2>
+            <div class="calendar-controls">
+                <button id="prev_month" class="action-btn" aria-label="Previous month"><i class="fas fa-chevron-left"></i></button>
+                <div id="calendar_header"></div>
+                <button id="next_month" class="action-btn" aria-label="Next month"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div id="calendar_table"></div>
+            <div id="current_time"></div>
+        </div>
+
+        <div id="chat" class="tab-content">
+            <h2><i class="fas fa-comments"></i> AI Assistant</h2>
+            <div class="chat-container">
+                <div class="chat-history" id="chat_history"></div>
+                <div class="chat-input">
+                    <div class="file-drop-area" id="file_drop_area">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Drop files here or click to upload</span>
+                        <input type="file" id="file_input" multiple style="display: none;" aria-label="File upload">
+                    </div>
+                    <div class="file-preview" id="file_preview"></div>
+                    <div class="message-input-container">
+                        <input type="text" id="message_input" placeholder="Ask me about tasks, dates, or anything..." aria-label="Chat message">
+                        <button id="send_button" class="action-btn" aria-label="Send message">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="activity" class="tab-content">
+            <h2><i class="fas fa-bell"></i> Activity Feed</h2>
+            <div class="activity-list-container" style="height: 400px; overflow-y: auto;">
+                <div id="activity_list"></div>
+            </div>
+        </div>
+
+        <div id="files" class="tab-content">
+            <h2><i class="fas fa-folder"></i> File Attachments</h2>
+            <div class="files-container" id="files_container"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
